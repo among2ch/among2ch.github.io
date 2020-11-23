@@ -7,7 +7,7 @@ var FLG_REQ = false
 function loadLIVE() {   
     var live_req = new XMLHttpRequest();
     live_req.overrideMimeType('application/json');
-    live_req.open('GET', 'api.' + window.location.hostname + '/live');
+    live_req.open('GET', window.location.protocol + '//api.' + window.location.hostname + '/live');
     live_req.onreadystatechange = function () {
         if(live_req.readyState == 4 && live_req.status == '200') {
             parseLIVE( live_req.responseText );

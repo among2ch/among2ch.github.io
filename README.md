@@ -1,2 +1,2 @@
-# among2ch.github.io
-Сервис по мониторингу двачерских рум в игре Among Us.
+# among2ch.github.io / among2ch.ga
+Сервис мониторинга приватных рум уровня /b, для игры Among Us.

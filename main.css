@@ -158,7 +158,6 @@ ul {
           transform: scale(0.95);
 }
 .button label {
-  font-family: monospace;
   margin: 2px 2px 0 0;
   padding: 7px 0;
   list-style: none;
@@ -170,6 +169,7 @@ ul {
   font-size: 16px;
   font-weight: 500;
   color: #000;
+  font-family: monospace;
 }
 
 .button .icon {
@@ -223,9 +223,21 @@ ul {
   --sw: 1.5;
 }
 
+#update_label{
+  font-size: 0.8em;
+  color: #95a5a6;
+  font-family: monospace;
+}
+#status_label{
+  font-size: 1em;
+  color: #633b3b;
+  padding: 10px;
+  margin: 10px;
+  background-color: #ffe9e9;
+}
 .disclaimer {
-    font-size: 0.8em;
-    color: #95a5a6;
-    text-align: justify;
-    padding-top: 20px;
+  font-size: 0.8em;
+  color: #95a5a6;
+  text-align: justify;
+  padding-top: 20px;
 }

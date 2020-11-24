@@ -41,12 +41,12 @@ function copyToClipboard() {
 
 function status(code){
     if( CODES[1][code][1] < 100 ){
-        return CODES[1][code][1] + '/' + CODES[1][code][3];
+        return 'В лобби ' + CODES[1][code][1] + '/' + CODES[1][code][3];
     }else if( CODES[1][code][1] == 101 ){
-        return 'ошибка';
+        return 'Ошибка';
     }
     
-    return 'в игре ' + Math.ceil((new Date()/1000 - CODES[1][code][4]) / 60) + ' мин.'
+    return 'В игре ' + Math.ceil((new Date()/1000 - CODES[1][code][4]) / 60) + ' мин.'
 }
 
 function createROOM(code){

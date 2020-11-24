@@ -1,7 +1,6 @@
 var CODES = [-1, {}]
 var MAPS = { '0': 'The Skeld', '1': 'MIRA HQ', '2': 'Polus', '100': '???'}
 var SERVERS = { 'EU': 'Европа', 'US': 'Америка', 'CH': 'Азия' }
-var STATUS = { '100': 'идет игра', '101': 'ошибка' }
 var FLG_REQ = false
     
 function loadLIVE() {   
@@ -38,6 +37,16 @@ function copyToClipboard() {
             document.body.removeChild(textarea);
         }
     }
+}
+
+function status(code){
+    if( CODES[1][code][1] < 100 ){
+        return CODES[1][code][1] + '/' + CODES[1][code][3];
+    }else if( CODES[1][code][1] == 101 ){
+        return 'ошибка';
+    }
+    
+    return 'в игре ' + Math.ceil((new Date()/1000 - CODES[1][code][4]) / 60) + ' мин.'
 }
 
 function createROOM(code){
@@ -92,7 +101,7 @@ function createROOM(code){
     div_col4.id = code + '_status';
     div_col4.className = 'col col-4';
     div_col4.setAttribute('data-label', 'Статус:');
-    div_col4.innerHTML = (CODES[1][code][1]>99?STATUS[CODES[1][code][1]]:CODES[1][code][1]+'/10');
+    div_col4.innerHTML = status(code);
     li.append(div_col4);
     
     let div_col5 = document.createElement('div');
@@ -127,6 +136,7 @@ function parseLIVE(json_txt) {
     catch (ex) {
         return;
     }
+    
     if( codes[0] !== CODES[0] ) {
         for (let code in codes[1]) {
             if(CODES[1][code] === undefined) {
@@ -139,11 +149,14 @@ function parseLIVE(json_txt) {
                 }
                 if(codes[1][code][1] !== CODES[1][code][1]){
                     CODES[1][code][1] = codes[1][code][1];
-                    document.getElementById(code+'_status').innerHTML = (CODES[1][code][1]>99?STATUS[CODES[1][code][1]]:CODES[1][code][1]+'/10');
+                    document.getElementById(code+'_status').innerHTML = status(code);
                 }
                 if(codes[1][code][2] !== CODES[1][code][2]){
                     CODES[1][code][2] = codes[1][code][2];
                     document.getElementById(code+'_bumps').innerHTML = CODES[1][code][2];
+                }
+                if(codes[1][code][4] !== CODES[1][code][4]){
+                    CODES[1][code][4] = codes[1][code][4];
                 }
             }
         }
@@ -173,10 +186,17 @@ if( document.readyState !== 'loading' ) {
 }
 
 function StartLive() {
+    let upd = 0;
     let timerId = setInterval(() => {
         if( FLG_REQ == false ) {
             FLG_REQ = true
             loadLIVE();
+        }
+        if(++upd >= 10){
+            upd = 0;
+            for (let code in CODES[1]) {
+                if(CODES[1][code][1] == 100) document.getElementById(code+'_status').innerHTML = status(code);
+            }
         }
     }, 1000);
 }

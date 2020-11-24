@@ -1,17 +1,24 @@
-var CODES = [-1, {}]
-var MAPS = { '0': 'The Skeld', '1': 'MIRA HQ', '2': 'Polus', '100': '???'}
-var SERVERS = { 'EU': 'Европа', 'US': 'Америка', 'CH': 'Азия' }
-var FLG_REQ = false
+var CODES = [-1, {}];
+var MAPS = { '0': 'The Skeld', '1': 'MIRA HQ', '2': 'Polus', '100': '???'};
+var SERVERS = { 'EU': 'Европа', 'US': 'Америка', 'CH': 'Азия' };
+var FLG_REQ = false;
+var UPD = 0;
     
-function loadLIVE() {   
+function loadLIVE() {
     var live_req = new XMLHttpRequest();
     live_req.overrideMimeType('application/json');
     live_req.open('GET', window.location.protocol + '//api.' + window.location.hostname + '/live');
     live_req.onreadystatechange = function () {
         if(live_req.readyState == 4 && live_req.status == '200') {
+            document.getElementById('update_status').innerHTML = 'ok&nbsp;';
             parseLIVE( live_req.responseText );
+            FLG_REQ = false
+        }else if(live_req.readyState == 4 && live_req.status != '200') {
+            document.getElementById('update_status').innerHTML = 'err';
+            parseLIVE('[2147483647, {}]')
+            UPD = 10;
+            FLG_REQ = false
         }
-        FLG_REQ = false
     };
     live_req.send(null);  
 }
@@ -41,7 +48,7 @@ function copyToClipboard() {
 
 function status(code){
     if( CODES[1][code][1] < 100 ){
-        return 'В лобби ' + CODES[1][code][1] + '/' + CODES[1][code][3];
+        return 'В лобби ' + CODES[1][code][1] + '/' + CODES[1][code][3] ;
     }else if( CODES[1][code][1] == 101 ){
         return 'Ошибка';
     }
@@ -134,7 +141,8 @@ function parseLIVE(json_txt) {
          codes = JSON.parse(json_txt);
     }
     catch (ex) {
-        return;
+        codes = [2147483647, {}];
+        UPD = 10;
     }
     
     if( codes[0] !== CODES[0] ) {
@@ -171,10 +179,18 @@ function parseLIVE(json_txt) {
         
         CODES[0] = codes[0];
         
-        if(Object.keys(CODES[1]).length == 0) {
-            document.getElementById('load_label').innerHTML = 'На данный момент не найдено ни одной румы =(';
-        } else {
-            document.getElementById('load_label').innerHTML = '';
+        let status_label = document.getElementById('status_label');
+        let update_status = document.getElementById('update_status');
+        if(CODES[0] == 2147483647) {
+            status_label.style.display = 'block';
+            status_label.innerHTML = 'На сервере идут технические работы, попробуйте зайти позже.';
+        }else if (Object.keys(CODES[1]).length == 0){
+            status_label.style.display = 'block';
+            status_label.innerHTML = 'Бот не нашел ни одной активной, российской, приватной двачерумы. Может её создашь именно ты?';
+        }else{
+            status_label.style.display = 'none';
+            status_label.innerHTML = '';
+            update_status.innerHTML = '3&nbsp;&nbsp;';
         }
     }
 }
@@ -186,16 +202,24 @@ if( document.readyState !== 'loading' ) {
 }
 
 function StartLive() {
-    let upd = 0;
+    let leave = 0;
     let timerId = setInterval(() => {
-        if( FLG_REQ == false ) {
-            FLG_REQ = true
-            loadLIVE();
+        if(FLG_REQ == false) {
+            if(UPD == 0) {
+                FLG_REQ = true
+                UPD = 3;
+                document.getElementById('update_status').innerHTML = '...';
+                loadLIVE();
+            }else{
+                update_status.innerHTML = UPD-- + '&nbsp;&nbsp;';
+            }
         }
-        if(++upd >= 10){
-            upd = 0;
+        if(++leave >= 10) {
+            leave = 0;
             for (let code in CODES[1]) {
-                if(CODES[1][code][1] == 100) document.getElementById(code+'_status').innerHTML = status(code);
+                if(CODES[1][code][1] == 100) {
+                    document.getElementById(code+'_status').innerHTML = status(code);
+                }
             }
         }
     }, 1000);

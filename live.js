@@ -159,6 +159,9 @@ function parseLIVE(json_txt) {
                     CODES[1][code][0] = codes[1][code][0];
                     document.getElementById(code+'_map').innerHTML = MAPS[CODES[1][code][1]];
                 }
+                if(codes[1][code][4] !== CODES[1][code][4]){
+                    CODES[1][code][4] = codes[1][code][4];
+                }
                 if(codes[1][code][1] !== CODES[1][code][1]){
                     CODES[1][code][1] = codes[1][code][1];
                     document.getElementById(code+'_status').innerHTML = status(code);
@@ -166,9 +169,6 @@ function parseLIVE(json_txt) {
                 if(codes[1][code][2] !== CODES[1][code][2]){
                     CODES[1][code][2] = codes[1][code][2];
                     document.getElementById(code+'_bumps').innerHTML = CODES[1][code][2];
-                }
-                if(codes[1][code][4] !== CODES[1][code][4]){
-                    CODES[1][code][4] = codes[1][code][4];
                 }
             }
         }

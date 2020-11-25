@@ -65,6 +65,7 @@ function createROOM(code){
     let li = document.createElement('li');
     li.id = code + '_li';
     li.className = 'table-row';
+    if( CODES[1][code][5] ) li.className += ' normis';
     
     let div_col1 = document.createElement('div');
     div_col1.className = 'col col-1';
@@ -170,6 +171,10 @@ function parseLIVE(json_txt) {
                 if(codes[1][code][2] !== CODES[1][code][2]){
                     CODES[1][code][2] = codes[1][code][2];
                     document.getElementById(code+'_bumps').innerHTML = CODES[1][code][2];
+                }
+                if(codes[1][code][5] !== CODES[1][code][5]){
+                    CODES[1][code][5] = codes[1][code][5];
+                    document.getElementById(code+'_li').className += ' normis';
                 }
             }
         }

@@ -3,11 +3,12 @@ var MAPS = { '0': 'The Skeld', '1': 'MIRA HQ', '2': 'Polus', '100': '???'};
 var SERVERS = { 'EU': 'Европа', 'US': 'Америка', 'CH': 'Азия' };
 var FLG_REQ = false;
 var UPD = 0;
+var NO_CACHE = Math.floor(2147483647 * Math.random());
     
 function loadLIVE() {
     var live_req = new XMLHttpRequest();
     live_req.overrideMimeType('application/json');
-    live_req.open('GET', window.location.protocol + '//api.' + window.location.hostname + '/live');
+    live_req.open('GET', window.location.protocol + '//api.' + window.location.hostname + '/live?'+ NO_CACHE++);
     live_req.onreadystatechange = function () {
         if(live_req.readyState == 4 && live_req.status == '200') {
             document.getElementById('update_status').innerHTML = 'ok&nbsp;';

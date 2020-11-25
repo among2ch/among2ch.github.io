@@ -11,6 +11,7 @@ function loadLIVE() {
     live_req.onreadystatechange = function () {
         if(live_req.readyState == 4 && live_req.status == '200') {
             document.getElementById('update_status').innerHTML = 'ok&nbsp;';
+            FLG_REQ = false;
             parseLIVE( live_req.responseText );
         }else if(live_req.readyState == 4 && live_req.status != '200') {
             document.getElementById('update_status').innerHTML = 'err';
@@ -18,6 +19,7 @@ function loadLIVE() {
                 document.getElementById(code+'_button').removeEventListener('click', copyToClipboard, false);
                 document.getElementById('codes_ul').removeChild(document.getElementById(code + '_li'));
             }
+            FLG_REQ = false;
             CODES = [-1, {}];
             parseLIVE();
         }
@@ -197,8 +199,6 @@ function parseLIVE(json_txt) {
             update_status.innerHTML = '3&nbsp;&nbsp;';
         }
     }
-    
-    FLG_REQ = false;
 }
 
 if( document.readyState !== 'loading' ) {

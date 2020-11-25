@@ -12,12 +12,14 @@ function loadLIVE() {
         if(live_req.readyState == 4 && live_req.status == '200') {
             document.getElementById('update_status').innerHTML = 'ok&nbsp;';
             parseLIVE( live_req.responseText );
-            FLG_REQ = false
         }else if(live_req.readyState == 4 && live_req.status != '200') {
             document.getElementById('update_status').innerHTML = 'err';
-            parseLIVE('[2147483647, {}]')
-            UPD = 10;
-            FLG_REQ = false
+            for (let code in CODES[1]) {
+                document.getElementById(code+'_button').removeEventListener('click', copyToClipboard, false);
+                document.getElementById('codes_ul').removeChild(document.getElementById(code + '_li'));
+            }
+            CODES = [-1, {}];
+            parseLIVE();
         }
     };
     live_req.send(null);  
@@ -177,6 +179,8 @@ function parseLIVE(json_txt) {
             }
         }
         
+        
+        
         CODES[0] = codes[0];
         
         let status_label = document.getElementById('status_label');
@@ -193,6 +197,8 @@ function parseLIVE(json_txt) {
             update_status.innerHTML = '3&nbsp;&nbsp;';
         }
     }
+    
+    FLG_REQ = false;
 }
 
 if( document.readyState !== 'loading' ) {
@@ -203,13 +209,16 @@ if( document.readyState !== 'loading' ) {
 
 function StartLive() {
     let leave = 0;
+    let update_status = document.getElementById('update_status');
     let timerId = setInterval(() => {
         if(FLG_REQ == false) {
             if(UPD == 0) {
                 FLG_REQ = true
-                UPD = 3;
-                document.getElementById('update_status').innerHTML = '...';
+                UPD = 4;
+                update_status.innerHTML = '...';
                 loadLIVE();
+            }else if ( (UPD == 4  &&  CODES[0] != 2147483647) || UPD == 10){
+                UPD--;
             }else{
                 update_status.innerHTML = UPD-- + '&nbsp;&nbsp;';
             }

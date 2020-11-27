@@ -2,6 +2,7 @@ var CODES = [-1, {}];
 var MAPS = { '0': 'The Skeld', '1': 'MIRA HQ', '2': 'Polus', '100': '???'};
 var SERVERS = { 'EU': 'Европа', 'US': 'Америка', 'CH': 'Азия' };
 var FLG_REQ = false;
+var LIVE_COMPLETE = false;
 var UPD = 0;
 var NO_CACHE = Math.floor(2147483647 * Math.random());
     
@@ -14,6 +15,7 @@ function loadLIVE() {
             document.getElementById('update_status').innerHTML = 'ok&nbsp;';
             FLG_REQ = false;
             parseLIVE( live_req.responseText );
+            LIVE_COMPLETE = true;
         }else if(live_req.readyState == 4 && live_req.status != '200') {
             document.getElementById('update_status').innerHTML = 'err';
             for (let code in CODES[1]) {
@@ -132,6 +134,8 @@ function createROOM(code){
         label_col6.className = 'form-switch';
             let input_col6 = document.createElement('input');
             input_col6.type = 'checkbox';
+            input_col6.setAttribute('room', code);
+            input_col6.addEventListener('click', pushRoom, false);
             label_col6.append(input_col6);
             let i_col6 = document.createElement('i');
             label_col6.append(i_col6);
@@ -139,6 +143,15 @@ function createROOM(code){
     li.append(div_col6);
     
     document.getElementById('codes_ul').append(li);
+}
+
+function pushRoom() {
+    if (typeof Subscribe !== "undefined") {
+        this.checked = !this.checked;
+        Subscribe( this );
+    }else{
+        this.checked = false;
+    }
 }
 
 function parseLIVE(json_txt) {
@@ -198,7 +211,7 @@ function parseLIVE(json_txt) {
             status_label.innerHTML = 'На сервере идут технические работы, попробуйте зайти позже.';
         }else if (Object.keys(CODES[1]).length == 0){
             status_label.style.display = 'block';
-            status_label.innerHTML = 'Бот не нашел ни одной активной, российской, приватной двачерумы. Может её создашь именно ты?';
+            status_label.innerHTML = 'Бот не нашел ни одной активной, российской, приватной двачерумы.';
         }else{
             status_label.style.display = 'none';
             status_label.innerHTML = '';

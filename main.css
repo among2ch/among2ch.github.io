@@ -129,6 +129,12 @@ ul {
   transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
   transition: all 0.25s linear;
 }
+
+i.loading::after {
+  transform: translate3d(12px, 2px, 0) scale3d(1, 1, 1) !important;
+  transition: all 0.25s linear !important;
+}
+
 .form-switch i::after {
   content: "";
   position: absolute;
@@ -141,6 +147,7 @@ ul {
   transform: translate3d(2px, 2px, 0);
   transition: all 0.2s ease-in-out;
 }
+
 .form-switch:active i::after {
   width: 28px;
   transform: translate3d(2px, 2px, 0);

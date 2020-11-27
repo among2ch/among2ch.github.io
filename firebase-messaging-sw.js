@@ -15,9 +15,10 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function(payload) {
-  console.log('Handling background message', payload);
-  payload.data.data = JSON.parse(JSON.stringify(payload.data));
-  return self.registration.showNotification(payload.data.title, payload.data);
+    payload.data.data = JSON.parse(JSON.stringify(payload.data));
+    payload.data.tag = payload.data.title;
+    payload.data.renotify = true;
+    return self.registration.showNotification(payload.data.title, payload.data);
 });
 
 self.addEventListener('notificationclick', function(event) {

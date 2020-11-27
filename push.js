@@ -19,8 +19,10 @@ if ('Notification' in window && 'serviceWorker' in navigator && 'localStorage' i
         Notification.requestPermission(function(permission) {
             if (permission === 'granted') {
                 navigator.serviceWorker.ready.then(function(registration) {
-                  payload.data.data = JSON.parse(JSON.stringify(payload.data));
-                  registration.showNotification(payload.data.title, payload.data);
+                    payload.data.data = JSON.parse(JSON.stringify(payload.data));
+                    payload.data.tag = payload.data.title;
+                    payload.data.renotify = true;
+                    registration.showNotification(payload.data.title, payload.data);
                 }).catch(function(error) {
                     console.log('ServiceWorker registration failed', error);
                 });

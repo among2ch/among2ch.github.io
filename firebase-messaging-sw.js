@@ -22,7 +22,7 @@ messaging.setBackgroundMessageHandler(function(payload) {
 });
 
 self.addEventListener('notificationclick', function(event) {
-    const target = 'https://among2ch.ga';
+    const target = 'https://among2ch.ga/';
     event.notification.close();
     event.waitUntil(clients.matchAll({
         type: 'window',

@@ -43,7 +43,7 @@ ul {
     box-shadow: 0px 0px 9px 0px rgba(255, 0, 0, 0.2);
 }
 .responsive-table li.normis::before {
-  content: 'Возможно присутствие нормисов!';
+  content: 'Включался публичный доступ!';
   position: absolute;
   text-align: center;
   width: 100%;

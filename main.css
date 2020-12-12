@@ -38,12 +38,29 @@ ul {
     background-color: #ffffff;
     box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.2);
 }
+
 .responsive-table .normis {
-    background-color: #fff4f4;
-    box-shadow: 0px 0px 9px 0px rgba(255, 0, 0, 0.2);
+    background-color: #fffbf4;
+    box-shadow: 0px 0px 9px 0px rgba(255, 94, 0, 0.2);
 }
 .responsive-table li.normis::before {
   content: 'Включался публичный доступ!';
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  top: 13px;
+  font-size: 0.8em;
+  color: #963636;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.responsive-table .public {
+    background-color: #fff4f4;
+    box-shadow: 0px 0px 9px 0px rgba(255, 0, 0, 0.2);
+}
+.responsive-table li.public::before {
+  content: 'Включен публичный доступ!';
   position: absolute;
   text-align: center;
   width: 100%;

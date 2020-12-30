@@ -1,5 +1,5 @@
 var CODES = [-1, {}];
-var MAPS = { '0': 'The Skeld', '1': 'MIRA HQ', '2': 'Polus', '100': '???'};
+var MAPS = { '0': 'The Skeld', '1': 'MIRA HQ', '2': 'Polus', '3': 'Airship', '100': '???'};
 var SERVERS = { 'EU': 'Европа', 'US': 'Америка', 'CH': 'Азия' };
 var FLG_REQ = false;
 var LIVE_COMPLETE = false;
